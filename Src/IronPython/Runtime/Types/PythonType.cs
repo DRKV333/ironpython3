@@ -2273,7 +2273,7 @@ type(name, bases, dict) -> creates a new type instance with the given name, base
                 }
 
                 if (!IsPythonType) {
-                    AddSystemInterfaces(mro);
+                    //AddSystemInterfaces(mro);
                 }
             } else if (_underlyingSystemType.IsInterface) {
                 // add interfaces to MRO & create bases list
