@@ -23,7 +23,7 @@ using Microsoft.Scripting.Hosting.Providers;
 namespace IronPythonCompiler {
 
     public class Program {
-
+        
         /// <summary>
         /// Generates the stub .exe file for starting the app
         /// </summary>
@@ -258,7 +258,7 @@ namespace IronPythonCompiler {
             string fileName = aName.Name.EndsWith(".exe") ? aName.Name : aName.Name + ".exe";
             ab.Save(fileName, config.Platform, config.Machine);
         }
-
+        
         public static int Main(string[] args) {
             var files = new List<string>();
             var config = new Config();
@@ -294,6 +294,12 @@ namespace IronPythonCompiler {
                     GenerateExe(config);
                 }
                 ConsoleOps.Info($"Saved to {outputfilename}");
+
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(outputfilename));
+                string subtypeFilename = Path.GetFileNameWithoutExtension(outputfilename) + "types";
+                ConsoleOps.Info($"Subtypes saving to {subtypeFilename}");
+                ClrModule.CompileSubclassTypes(subtypeFilename, ClrModule.GetSubclassedTypes());
+                ConsoleOps.Info($"Subtypes saved to {subtypeFilename}");
             } catch (Exception e) {
                 Console.WriteLine();
                 ConsoleOps.Error(true, e.Message);
